@@ -68,9 +68,8 @@ v0.dev (for styling purposes)
 To ensure the integrity of the data:
 
  <p> I watch the news on Feb 22nd 2022. I notice evacuation into subway footage. I also notice the weather, I do a quick weather search and find out there was none. Though I, myself, never even spoke on the matter publically or online. </p>
-   A quick verification process was followed, such as checking claims like Ukraine “faking” snow in their footage during the 2022 conflict. This claim was easily debunked using a credible source: Reuters fact-check for recent evaluations:
- <p>  [Rueters Evaluation on the "snow" more recently brought up](https://www.reuters.com/article/fact-check/image-of-polish-weather-map-engulfing-parts-of-ukraine-is-fake-idUSL1N34C1EB/) Even though there is a verdict, the information about the event is there. You are the one in charge of semantics when it is introduced. Rememebr that.</p>
-<p></p>[CNN Report just 4 days after the war](https://www.cnn.com/2022/02/26/politics/fake-ukraine-videos-fact-check/index.html)</p>
+   A quick verification process was followed, such as checking claims like Ukraine “faking” snow in their footage during the 2022 conflict. This claim was easily debunked using a credible source: Reuters fact-check for recent evaluations:<p><a href="https://www.reuters.com/article/fact-check/image-of-polish-weather-map-engulfing-parts-of-ukraine-is-fake-idUSL1N34C1EB/">Reuters Report almost on the same matter. Though unnecessary  in their verdict , the information is still there.</a></p>
+<p><a href="https://www.cnn.com/2022/02/26/politics/fake-ukraine-videos-fact-check/index.html">CNN Report just 4 days after the war</a></p>
 
   With respect to those who were the victims of those alleged war crimes.
   The creator does not endorse any specific political stance or narrative. This tool is for informational and analytical purposes only. 
