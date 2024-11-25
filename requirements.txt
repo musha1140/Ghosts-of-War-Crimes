@@ -11,4 +11,5 @@ seaborn>=0.13.2
 networkx>=3.4.2
 scikit-learn>=1.5.2
 torch>=2.5.1
-dgl<=2.2.1
+torchdata>=0.9.0
+dgl>=2.0.0
