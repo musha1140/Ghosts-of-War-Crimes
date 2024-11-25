@@ -1,7 +1,15 @@
 Incident Type,Date,Location,Number of Victims,Responsible Party,Latitude,Longitude,Source
 Civilian Bombing,2024-11-01,Gaza,Palestine,78,Israel Air Force,31.5,34.5,UN Report 2024-11-02
-Blocked Humanitarian Aid,2024-10-29,Yemen,2000000,Saudi-led Coalition,15.55,48.5,WHO 2024
-Chemical Weapon Use,2013-08-21,Ghouta,Syria,1400,Assad Regime,33.5,36.3,OPCW Investigation 2013
-Forced Displacement,2022-03-01,Ukraine,1000000,Russian Armed Forces,48.3,31.1,UNHCR 2022 Report
-Mass Executions,2014-08-15,Sindh,Iraq,2000,ISIS,35.5,43.5,Amnesty International Report 2014
-Ethnic Cleansing,2017-10-25,Rakhine,Myanmar,24000,Myanmar Military,20.5,92.9,Human Rights Watch 2017
+Blocked Humanitarian Aid,2024-10-29,Yemen,2000000,Saudi-led Coalition,15.55,48.5,WHO,2024
+Chemical Weapon Use,2013-08-21,Ghouta,Syria,1400,Assad Regime,33.5,36.3,OPCW Investigation, 2013
+Forced Displacement,2022-03-01,Ukraine,1000000,Russian Armed Forces,48.3,31.1,UNHCR, 2022 Report
+Mass Executions,2014-08-15,Sindh,Iraq,2000,ISIS,35.5,43.5,Amnesty International Report, 2014
+Ethnic Cleansing,2017-10-25,Rakhine,Myanmar,24000,Myanmar Military,20.5,92.9,Human Rights Watch, 2017
+Incident Type,Date,Location,Number of Victims,Responsible Party,Latitude,Longitude,Source
+Airstrike on Apartment Building,2023-10-31,Gaza City, Palestine,106,Not explicitly named,31.5,34.5,https://www.hrw.org/news/2024/04/04/gaza-israeli-strike-killing-106-civilians-apparent-war-crime
+Airstrikes in Rafah,2024-02-12,Rafah, Palestine,95,Not explicitly named,31.3,34.25,https://www.amnesty.org/en/latest/news/2024/02/israel-opt-new-evidence-of-unlawful-israeli-attacks-in-gaza-causing-mass-civilian-casualties-amid-real-risk-of-genocide/
+Airstrikes in Gaza Strip,2024-05-27,Gaza Strip, Palestine,44,Not explicitly named,31.5,34.5,https://amnesty.ca/human-rights-news/israeli-air-strikes-that-killed-44-civilians-further-evidence-of-war-crimes-in-the-occupied-gaza-strip/
+Airstrike on Hospital Director's Home,2024-11-22,Northeastern Lebanon,7,Not explicitly named,34.5,36.5,https://apnews.com/article/3ae91e1af419bfbb9f4cd661ee88f96b
+Airstrike on Kamal Adwan Hospital,2024-11-22,Beit Lahiya, Palestine,9,Not explicitly named,31.55,34.5,https://apnews.com/article/3ae91e1af419bfbb9f4cd661ee88f96b
+Airstrike on Shejaia Suburb,2024-11-24,Gaza City, Palestine,10,Not explicitly named,31.5,34.5,https://www.reuters.com/world/middle-east/israeli-army-orders-gaza-city-suburb-evacuated-spurring-new-displacement-wave-2024-11-24/
+Airstrike on Al-Maghazi and Al-Bureij Camps,2024-11-24,Gaza Strip, Palestine,10,Not explicitly named,31.5,34.5,https://www.reuters.com/world/middle-east/israeli-army-orders-gaza-city-suburb-evacuated-spurring-new-displacement-wave-2024-11-24/
