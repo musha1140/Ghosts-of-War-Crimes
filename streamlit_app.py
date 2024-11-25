@@ -2,8 +2,10 @@ import streamlit as st
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
 import plotly.express as px
+import plotly.graph_objects as go
+from urllib.error import URLError
+import requests
 
 # App Configuration
 st.set_page_config(
@@ -140,6 +142,23 @@ def plotly_network_graph(G):
                     ))
     st.plotly_chart(fig, use_container_width=True)
 
+# Custom Data Gathering Function
+def gather_custom_data(api_key, query):
+    try:
+        headers = {"Authorization": f"Bearer {api_key}"}
+        url = "https://api.openai.com/v1/chat/completions"
+        payload = {
+            "model": "gpt-4",
+            "messages": [{"role": "user", "content": query}],
+            "temperature": 0.7
+        }
+        response = requests.post(url, headers=headers, json=payload)
+        response.raise_for_status()
+        return response.json().get("choices")[0].get("message").get("content", "")
+    except Exception as e:
+        st.error(f"Failed to gather custom data: {e}")
+        return ""
+
 # Main App Logic
 df = load_data()
 if not df.empty:
@@ -155,7 +174,9 @@ if not df.empty:
     ]
 
     # Tabs for Data, Visualizations, and Graphs
-    tab1, tab2, tab3 = st.tabs(["📊 Data Overview", "📈 Visualizations", "🔗 Network Graphs"])
+    tab1, tab2, tab3, tab4 = st.tabs(
+        ["📊 Data Overview", "📈 Visualizations", "🔗 Network Graphs", "🌐 Gather Data"]
+    )
 
     # Tab 1: Data Overview
     with tab1:
@@ -202,6 +223,18 @@ if not df.empty:
 
         st.subheader("Network Graph (Plotly)")
         plotly_network_graph(graph)
+
+    # Tab 4: Gather Custom Data
+    with tab4:
+        st.subheader("Gather Custom Data")
+        api_key = st.text_input("Enter OpenAI API Key", type="password")
+        query = st.text_area("Enter query to fetch additional data")
+        if st.button("Fetch Data"):
+            if api_key and query:
+                result = gather_custom_data(api_key, query)
+                st.markdown(f"**Fetched Data:**\n\n{result}")
+            else:
+                st.error("Please provide both an API key and a query.")
 
 else:
     st.error("No data available. Please upload a valid CSV file.")
