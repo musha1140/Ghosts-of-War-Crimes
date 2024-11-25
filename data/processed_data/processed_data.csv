@@ -1,4 +1,4 @@
-Incident Type,Date,Location,Number of Victims,Responsible Party,Latitude,Longitude,Source
+Incident Type,Date,Location,Number of Victims,Responsible Party,Latitude-Longitude,Source
 Civilian Bombing,2024-11-01,Gaza,Palestine,78,Israel Air Force,31.5,34.5,UN Report 2024-11-02
 Blocked Humanitarian Aid,2024-10-29,Yemen,2000000,Saudi-led Coalition,15.55,48.5,WHO,2024
 Chemical Weapon Use,2013-08-21,Ghouta,Syria,1400,Assad Regime,33.5,36.3,OPCW Investigation, 2013
