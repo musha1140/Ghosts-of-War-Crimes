@@ -61,7 +61,13 @@ v0.dev (for styling purposes)
     <p>Reports and Research are sourced, or yet to be.</p>
     <p>Every party documented has been with the request of "Ghostwriting" software (named above)</p>
     <p>Even so, The LLMs were meant to only report facts, and even trunicated those with not as much</p>
-  <p>Palestine</p>, <!-- End of Insert -->and other countries that are metnioned as an aggressor, or implied as such, like Russia, China, Lebanon, or any other "hot zone"  including Ukraine, is met with an objective and unbiased approach. 
+  <p>Palestine</p> <!-- End of Vertical Self-Insert -->and other countries that are mentioned as an aggressor, or implied as such,, or any other "hot zone", Including both sies of the war in Ukraine, are met with an objective and unbiased approach. IRBMs will possibly be included if still used in the conflict. [example below]
+  **Example of Verification Process**
+
+To ensure the integrity of the data:
+   •  I watch the news on Feb 22nd 2022. I notice evacuation into subway footage. I also notice the weather, I do a quick weather search and find out there was none. Though I, myself, never even spoke on the matter publically or online. Fox News on March 15th 2022 ended up with a report, which was damaging, due to their misleading headlines.
+	•	A quick verification process was followed, such as checking claims like Ukraine “faking” snow in their footage during the 2022 conflict. This claim was easily debunked using a credible source: Reuters fact-check.
+
 
   With respect to those who were the victims of those alleged war crimes.
   The creator does not endorse any specific political stance or narrative. This tool is for informational and analytical purposes only. 
