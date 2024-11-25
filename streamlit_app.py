@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
-import seaborn as sns
-import matplotlib.pyplot as plt
+import dgl
+import torch
 import networkx as nx
+import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 
 # App Configuration
 st.set_page_config(
@@ -11,25 +12,39 @@ st.set_page_config(
     layout="wide",
 )
 
-# Custom CSS for Styling
+# Custom CSS for clean styling and responsive design
 st.markdown("""
     <style>
     .main {
-        background-color: #f0f2f6;
-        color: #1e1e1e;
+        background-color: #f5f5f5;
+        color: #333333;
     }
     .stApp {
-        font-family: 'Arial', sans-serif;
+        font-family: 'Roboto', sans-serif;
     }
     h1, h2, h3 {
-        color: #2c3e50;
+        color: #1976D2;
+        font-weight: 500;
     }
     .stButton>button {
-        background-color: #34495e;
+        background-color: #2196F3;
         color: white;
+        border-radius: 4px;
+        font-weight: 500;
     }
     .stSelectbox {
-        background-color: #ecf0f1;
+        background-color: white;
+        border-radius: 4px;
+    }
+    .stPlotlyChart {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    }
+    @media (max-width: 768px) {
+        .main {
+            padding: 1rem;
+        }
     }
     </style>
     """, unsafe_allow_html=True)
@@ -47,129 +62,92 @@ def load_data(file_path="./data/processed_data/processed_data.csv"):
         st.error(f"Failed to load data: {e}")
         return pd.DataFrame()
 
-# File Upload Section
-st.header("Data Source")
-uploaded_file = st.file_uploader("Upload a CSV file containing war crimes data", type=["csv"])
-if uploaded_file:
-    df = pd.read_csv(uploaded_file)
-else:
-    df = load_data()
+# Graph Creation and Visualization Functions
+def create_dgl_graph(df):
+    src = df['Responsible Party']
+    dst = df['Location']
 
+    # Categorical encoding
+    src_ids = pd.Categorical(src).codes
+    dst_ids = pd.Categorical(dst).codes
+
+    graph = dgl.graph((torch.tensor(src_ids), torch.tensor(dst_ids)))
+    return graph, src, dst
+
+def visualize_graph(graph, src, dst):
+    nx_graph = graph.to_networkx()
+    plt.figure(figsize=(12, 8))
+    pos = nx.spring_layout(nx_graph)
+    nx.draw(
+        nx_graph, pos, with_labels=True,
+        node_color="#2196F3", edge_color="#BBDEFB", node_size=500, font_size=8,
+        font_color="white", font_weight="bold"
+    )
+    labels = {i: label for i, label in enumerate(src.append(dst).unique())}
+    nx.draw_networkx_labels(nx_graph, pos, labels=labels)
+    st.pyplot(plt)
+
+def graph_metrics(graph):
+    st.write(f"**Nodes:** {graph.num_nodes()}")
+    st.write(f"**Edges:** {graph.num_edges()}")
+    degree = graph.in_degrees().float()
+    st.write(f"**Average In-Degree:** {torch.mean(degree):.2f}")
+
+def plotly_graph(graph, src, dst):
+    edge_x, edge_y = [], []
+    pos = nx.spring_layout(graph.to_networkx())
+    for edge in graph.edges():
+        x0, y0 = pos[edge[0]]
+        x1, y1 = pos[edge[1]]
+        edge_x.extend([x0, x1, None])
+        edge_y.extend([y0, y1, None])
+    edge_trace = go.Scatter(x=edge_x, y=edge_y, line=dict(width=0.5, color='#BBDEFB'), mode='lines')
+    node_x, node_y = zip(*[pos[node] for node in graph.nodes()])
+    node_trace = go.Scatter(x=node_x, y=node_y, mode='markers', marker=dict(color='#2196F3', size=10),
+                            text=list(src.append(dst).unique()), hoverinfo='text')
+    fig = go.Figure(data=[edge_trace, node_trace])
+    fig.update_layout(
+        title='Graph Visualization',
+        titlefont_size=16,
+        showlegend=False,
+        hovermode='closest',
+        margin=dict(b=20, l=5, r=5, t=40),
+        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)'
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+# Main App Logic
+df = load_data()
 if not df.empty:
-    # Sidebar Filters
-    st.sidebar.header("Data Filters")
-    incident_filter = st.sidebar.multiselect(
-        "Incident Type(s)", options=df["Incident Type"].unique(), default=df["Incident Type"].unique()
-    )
-    location_filter = st.sidebar.multiselect(
-        "Location(s)", options=df["Location"].unique(), default=df["Location"].unique()
-    )
-    party_filter = st.sidebar.multiselect(
-        "Responsible Party(s)", options=df["Responsible Party"].unique(), default=df["Responsible Party"].unique()
-    )
+    st.sidebar.header("Filters")
+    selected_party = st.sidebar.multiselect("Responsible Party", options=df["Responsible Party"].unique(), default=df["Responsible Party"].unique())
+    selected_location = st.sidebar.multiselect("Location", options=df["Location"].unique(), default=df["Location"].unique())
+    filtered_data = df[df["Responsible Party"].isin(selected_party) & df["Location"].isin(selected_location)]
 
-    # Apply Filters
-    filtered_data = df[
-        (df["Incident Type"].isin(incident_filter)) &
-        (df["Location"].isin(location_filter)) &
-        (df["Responsible Party"].isin(party_filter))
-    ]
+    graph, src, dst = create_dgl_graph(filtered_data)
 
-    # Tabs for Layout
-    tab1, tab2, tab3 = st.tabs(["📊 Data Overview", "📈 Visualizations", "📜 Insights"])
+    st.subheader("Graph Visualization")
+    visualize_graph(graph, src, dst)
 
-    # Tab 1: Data Overview
-    with tab1:
-        st.subheader("Filtered Data Overview")
-        st.write(f"Total Records: {len(filtered_data)}")
-        st.dataframe(filtered_data)
+    st.subheader("Graph Metrics")
+    graph_metrics(graph)
 
-        st.subheader("Summary Statistics")
-        st.write(filtered_data.describe())
-
-        st.subheader("Download Filtered Data")
-        csv = filtered_data.to_csv(index=False)
-        st.download_button(label="Download CSV", data=csv, file_name="filtered_data.csv", mime="text/csv")
-
-    # Tab 2: Visualizations
-    with tab2:
-        st.subheader("Victims by Incident Type")
-        chart_data = filtered_data.groupby("Incident Type")["Number of Victims"].sum().sort_values()
-
-        # Bar Chart
-        st.bar_chart(chart_data)
-
-        # Pie Chart
-        st.subheader("Pie Chart: Victims by Incident Type")
-        fig = px.pie(
-            filtered_data,
-            names="Incident Type",
-            values="Number of Victims",
-            title="Victims by Incident Type",
-        )
-        st.plotly_chart(fig)
-
-        # Line Chart
-        st.subheader("Line Chart: Victims Over Time")
-        if "Date" in filtered_data.columns:
-            line_data = filtered_data.groupby("Date")["Number of Victims"].sum()
-            st.line_chart(line_data)
-
-        # Heatmap
-        st.subheader("Heatmap: Victims by Type and Responsible Party")
-        if not filtered_data.empty:
-            pivot = filtered_data.pivot_table(
-                index="Incident Type", columns="Responsible Party", values="Number of Victims", aggfunc="sum", fill_value=0
-            )
-            fig, ax = plt.subplots(figsize=(10, 6))
-            sns.heatmap(pivot, cmap="Blues", annot=True, fmt="g", ax=ax)
-            st.pyplot(fig)
-
-        # Map Visualization
-        st.subheader("Incident Map")
-        if "Latitude" in filtered_data.columns and "Longitude" in filtered_data.columns:
-            fig_map = px.scatter_mapbox(
-                filtered_data,
-                lat="Latitude",
-                lon="Longitude",
-                size="Number of Victims",
-                color="Incident Type",
-                hover_name="Location",
-                title="Incident Locations (OpenStreetMap)",
-                zoom=1,
-                mapbox_style="carto-positron"
-            )
-            st.plotly_chart(fig_map)
-
-    # Tab 3: Insights
-    with tab3:
-        st.subheader("Key Insights")
-        st.markdown(
-            """
-            - **Incident Type Trends**: Examine which incident types contribute most to victim counts.
-            - **Geographic Analysis**: Identify regions with the highest concentration of incidents.
-            - **Party Responsibility**: Analyze which responsible parties are linked to the most incidents.
-            """
-        )
-        if not filtered_data.empty:
-            top_incident = filtered_data.groupby("Incident Type")["Number of Victims"].sum().idxmax()
-            top_location = filtered_data.groupby("Location")["Number of Victims"].sum().idxmax()
-            st.write(f"Top Incident Type by Victims: {top_incident}")
-            st.write(f"Top Location by Victims: {top_location}")
+    st.subheader("Interactive Visualization")
+    plotly_graph(graph, src, dst)
 else:
-    st.error("No data available. Please upload a file or check your default data source.")
-# Add a disclaimer at the bottom of the app for probable goverment requests of information that may be inclined to defend their actions.
+    st.error("No data available. Please upload a valid CSV file.")
+
+# Footer Disclaimer and README.md link
 st.markdown("---")
 st.markdown("""
-    **Disclaimer:**
-    For all intents and purposes, his dashboard visualizes data sourced from publicly available reports and research. 
-    Reports and Research are sourced, or yet to be.
-    Every party documented has been with the request of "Ghostwriting" software
-    Even so, The LLMs were meant to only report facts, and even trunicated those with not as much
-  Palestine, Russia, China, Lebanon, or any other "hot zone"  including Ukraine, is met with an objective and unbiased approach. 
-
-  With respect to those who were the victims of those alleged war crimes.
-  The creator does not endorse any specific political stance or narrative. This tool is for informational and analytical purposes only. 
-
-    For inquiries, please contact: [musherz@gas-lighting.com](mailto:musherz@gas-lighting.com).
-""")
+    <div style='background-color: #E3F2FD; padding: 1rem; border-radius: 4px; margin: 1rem 0; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);'>
+        <h3 style='margin-top: 0; color: #1976D2;'>Documentation & Disclaimer</h3>
+        <p>For detailed information about this dashboard, data sources, and full disclaimer, please see our 
+        <a href='https://github.com/musha1140/README.md' target='_blank'>documentation</a>.</p>
+        
+        <p><strong>Contact:</strong> <a href='mailto:musherz@gas-lighting.com'>musherz@gas-lighting.com</a></p>
+    </div>
+    """, unsafe_allow_html=True)
