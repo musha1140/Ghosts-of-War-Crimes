@@ -57,11 +57,11 @@ v0.dev (for styling purposes)
 
 ##
    **Disclaimer:**
-    <p>F</p>or all intents and purposes, his dashboard visualizes data sourced from publicly available reports and research. 
-    <p></p>Reports and Research are sourced, or yet to be.
-    <p>E</p>very party documented has been with the request of "Ghostwriting" software (named above)
-    <p>E</p>ven so, The LLMs were meant to only report facts, and even trunicated those with not as much
-  <p>Palestine</p>, Russia, China, Lebanon, or any other "hot zone"  including Ukraine, is met with an objective and unbiased approach. 
+    <p>For all intents and purposes, his dashboard visualizes data sourced from publicly available reports and research. </p>
+    <p>Reports and Research are sourced, or yet to be.</p>
+    <p>Every party documented has been with the request of "Ghostwriting" software (named above)</p>
+    <p>Even so, The LLMs were meant to only report facts, and even trunicated those with not as much</p>
+  <p>Palestine</p>, <!-- End of Insert -->and other countries that are metnioned as an aggressor, or implied as such, like Russia, China, Lebanon, or any other "hot zone"  including Ukraine, is met with an objective and unbiased approach. 
 
   With respect to those who were the victims of those alleged war crimes.
   The creator does not endorse any specific political stance or narrative. This tool is for informational and analytical purposes only. 
