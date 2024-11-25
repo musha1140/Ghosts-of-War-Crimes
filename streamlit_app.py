@@ -158,3 +158,18 @@ if not df.empty:
             st.write(f"Top Location by Victims: {top_location}")
 else:
     st.error("No data available. Please upload a file or check your default data source.")
+# Add a disclaimer at the bottom of the app for probable goverment requests of information that may be inclined to defend their actions.
+st.markdown("---")
+st.markdown("""
+    **Disclaimer:**
+    For all intents and purposes, his dashboard visualizes data sourced from publicly available reports and research. 
+    Reports and Research are sourced, or yet to be.
+    Every party documented has been with the request of "Ghostwriting" software
+    Even so, The LLMs were meant to only report facts, and even trunicated those with not as much
+  Palestine, Russia, China, Lebanon, or any other "hot zone"  including Ukraine, is met with an objective and unbiased approach. 
+
+  With respect to those who were the victims of those alleged war crimes.
+  The creator does not endorse any specific political stance or narrative. This tool is for informational and analytical purposes only. 
+
+    For inquiries, please contact: [musherz@gas-lighting.com](mailto:musherz@gas-lighting.com).
+""")
