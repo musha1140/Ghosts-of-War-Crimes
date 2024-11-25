@@ -1,0 +1,16 @@
+Dataset Name: War Crimes Dataset
+Description: This dataset records incidents of war crimes and crimes against humanity, including location, date, number of victims, and responsible parties.
+
+Columns:
+1. Incident Type: Type of war crime (e.g., bombing, chemical weapon use).
+2. Date: Date of the incident in YYYY-MM-DD format.
+3. Location: City or region where the incident occurred.
+4. Number of Victims: Approximate number of victims.
+5. Responsible Party: Entity or group responsible.
+6. Latitude/Longitude: Coordinates for mapping.
+7. Source: Verified source (e.g., UN, WHO).
+
+Processing Notes:
+- Cleaned for duplicates.
+- Standardized locations to city-country format.
+- Dates converted to ISO format.

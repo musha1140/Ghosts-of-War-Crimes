@@ -1,0 +1,8 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+    <rect x="50" y="50" width="50" height="200" fill="#3498db" />
+    <rect x="150" y="100" width="50" height="150" fill="#2980b9" />
+    <rect x="250" y="150" width="50" height="100" fill="#1abc9c" />
+    <text x="50" y="270" font-size="16" font-family="Arial">Type 1</text>
+    <text x="150" y="270" font-size="16" font-family="Arial">Type 2</text>
+    <text x="250" y="270" font-size="16" font-family="Arial">Type 3</text>
+</svg>
