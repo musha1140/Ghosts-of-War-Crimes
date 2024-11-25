@@ -14,3 +14,4 @@ torch>=2.5.1
 torchdata>=0.9.0
 dgl>=2.0.0
 pyOpenSSL>=24.2.1
+pandas>=2.2.3
