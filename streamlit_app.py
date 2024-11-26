@@ -87,17 +87,13 @@ if not df.empty:
     parties = st.sidebar.multiselect("Responsible Party", df["Responsible Party"].unique() if "Responsible Party" in df.columns else [])
 
     # Apply Filters
-    filter_conditions = []
-    if "Incident Type" in df.columns and incident_types:
-        filter_conditions.append(df["Incident Type"].isin(incident_types))
-    if "Location" in df.columns and locations:
-        filter_conditions.append(df["Location"].isin(locations))
-    if "Responsible Party" in df.columns and parties:
-        filter_conditions.append(df["Responsible Party"].isin(parties))
-
     filtered_df = df
-    if filter_conditions:
-        filtered_df = df.loc[pd.concat(filter_conditions, axis=1).all(axis=1)]
+    if incident_types:
+        filtered_df = filtered_df[filtered_df["Incident Type"].isin(incident_types)]
+    if locations:
+        filtered_df = filtered_df[filtered_df["Location"].isin(locations)]
+    if parties:
+        filtered_df = filtered_df[filtered_df["Responsible Party"].isin(parties)]
 
     # Tabs for Data, Visualizations, and Graphs
     tab1, tab2, tab3 = st.tabs(["📊 Data Overview", "📈 Visualizations", "🔗 Network Graphs"])
@@ -108,7 +104,7 @@ if not df.empty:
         st.download_button("Download Filtered Data", filtered_df.to_csv(index=False), "filtered_data.csv")
 
     with tab2:
-        st.subheader("Incident Scatterplot")
+        st.subheader("Incident Map")
         if "Latitude" in filtered_df.columns and "Longitude" in filtered_df.columns:
             fig = px.scatter(
                 filtered_df,
