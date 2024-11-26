@@ -77,21 +77,6 @@ def visualize_graph_matplotlib(G):
     plt.title("Network Graph Visualization", fontsize=16, fontweight="bold")
     st.pyplot(plt)
 
-# Visualize Network Graph with Plotly
-def visualize_graph_plotly(G):
-    pos = nx.spring_layout(G, seed=42)
-    edge_x, edge_y = [], []
-    for edge in G.edges():
-        x0, y0 = pos[edge[0]]
-        x1, y1 = pos[edge[1]]
-        edge_x.extend([x0, x1, None])
-        edge_y.extend([y0, y1, None])
-    edge_trace = px.line_mapbox(
-        lon=edge_x, lat=edge_y, line_group=0,
-        color_discrete_sequence=["#BBDEFB"]
-    )
-    st.plotly_chart(edge_trace)
-
 # Main App Logic
 df = load_data()
 
@@ -123,18 +108,30 @@ if not df.empty:
         st.download_button("Download Filtered Data", filtered_df.to_csv(index=False), "filtered_data.csv")
 
     with tab2:
-        st.subheader("Incident Map")
+        st.subheader("Incident Scatterplot")
         if "Latitude" in filtered_df.columns and "Longitude" in filtered_df.columns:
-            fig = px.scatter_mapbox(
+            fig = px.scatter(
                 filtered_df,
-                lat="Latitude",
-                lon="Longitude",
+                x="Longitude",
+                y="Latitude",
                 size="Number of Victims",
                 color="Incident Type",
                 hover_name="Location",
-                mapbox_style="carto-positron",
+                labels={"x": "Longitude", "y": "Latitude"},
+                title="Incident Locations"
             )
             st.plotly_chart(fig, use_container_width=True)
+
+        st.subheader("Victims by Incident Type")
+        bar_data = filtered_df.groupby("Incident Type")["Number of Victims"].sum().sort_values(ascending=False)
+        fig_bar = px.bar(
+            x=bar_data.index,
+            y=bar_data.values,
+            labels={'x': 'Incident Type', 'y': 'Number of Victims'},
+            title='Victims by Incident Type'
+        )
+        fig_bar.update_traces(marker_color='#2196F3')
+        st.plotly_chart(fig_bar, use_container_width=True)
 
     with tab3:
         st.subheader("Network Graph (Matplotlib)")
