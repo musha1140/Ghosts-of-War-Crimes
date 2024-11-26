@@ -69,40 +69,38 @@ if not df.empty:
 
     # Tab 2: Visualizations
     with tab2:
-        if "Incident Type" in filtered_df.columns and "Number of Victims" in filtered_df.columns:
-            st.subheader("Victims by Incident Type")
-            bar_data = filtered_df.groupby("Incident Type")["Number of Victims"].sum().sort_values(ascending=False)
-            fig_bar = px.bar(
-                x=bar_data.index,
-                y=bar_data.values,
-                labels={"x": "Incident Type", "y": "Number of Victims"},
-                title="Victims by Incident Type",
-            )
-            st.plotly_chart(fig_bar, use_container_width=True)
-        else:
-            st.warning("Missing data for visualizations. Please check your dataset.")
+        # Ensure the 'Number of Victims' column is numeric
+if "Number of Victims" in filtered_df.columns:
+    try:
+        filtered_df["Number of Victims"] = pd.to_numeric(filtered_df["Number of Victims"], errors="coerce")
+    except Exception as e:
+        st.warning(f"Error processing 'Number of Victims': {e}")
 
-    # Tab 3: Maps
-    with tab3:
-        if "Latitude" in filtered_df.columns and "Longitude" in filtered_df.columns:
-            st.subheader("Incident Map")
-            fig_map = px.scatter_mapbox(
-                filtered_df,
-                lat="Latitude",
-                lon="Longitude",
-                size="Number of Victims",
-                size_max=50,
-                color="Incident Type",
-                hover_name="Location",
-                mapbox_style="carto-positron",
-                zoom=1,
-            )
-            st.plotly_chart(fig_map, use_container_width=True)
-        else:
-            st.warning("Missing latitude/longitude data for map rendering.")
+    # Drop rows where 'Number of Victims' could not be converted
+    filtered_df = filtered_df.dropna(subset=["Number of Victims"])
+
+# Map Visualization
+if "Latitude" in filtered_df.columns and "Longitude" in filtered_df.columns:
+    try:
+        st.subheader("Incident Map")
+        fig_map = px.scatter_mapbox(
+            filtered_df,
+            lat="Latitude",
+            lon="Longitude",
+            size="Number of Victims",
+            size_max=50,  # Optional: Max size of the markers
+            color="Incident Type",
+            hover_name="Location",
+            zoom=1,
+            mapbox_style="carto-positron",
+        )
+        st.plotly_chart(fig_map, use_container_width=True)
+    except Exception as e:
+        st.error(f"Failed to render map: {e}")
 else:
-    st.error("No data available. Please upload a valid CSV file.")
-
+    st.warning("Latitude/Longitude data is missing for map rendering.")
+   
+st.write("Filtered Data Preview", filtered_df.head())
 # Footer
 st.markdown("---")
 st.markdown("""
