@@ -1,5 +1,5 @@
-
-# Ghosts of War Crimes
+# ALL VISUALS HAVE BEEN REMOVED AS IT IS NOT 2025 YET
+### Ghosts of War Crimes
 Visualizing the devastating impacts of war crimes and crimes against humanity using interactive data visualizations and advanced filtering.
 
 ## Project Overview
